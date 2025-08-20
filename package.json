@@ -1,0 +1,71 @@
+{
+  "name": "readerspec",
+  "version": "0.1.0",
+  "description": "Generate Express.js APIs from human-readable markdown specifications",
+  "main": "dist/index.js",
+  "bin": {
+    "readerspec": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon --watch src --ext ts --exec 'npm run build && node dist/index.js'",
+    "start": "node dist/index.js",
+    "check": "npm run build && node dist/index.js check",
+    "build:api": "npm run build && node dist/index.js build",
+    "translate": "npm run build && node dist/index.js translate",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "format:check": "prettier --check src/**/*.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --watchAll=false",
+    "depcheck": "npx depcheck"
+  },
+  "keywords": [
+    "api",
+    "generator",
+    "express",
+    "markdown",
+    "specification"
+  ],
+  "author": "Tom Benbow",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/readerspec/readerspec.git"
+  },
+  "homepage": "https://github.com/readerspec/readerspec#readme",
+  "bugs": {
+    "url": "https://github.com/readerspec/readerspec/issues"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "jest": "^30.0.5",
+    "nodemon": "^3.0.0",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.4.1",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.1",
+    "openai": "^5.12.2",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "zod": "^3.25.76"
+  }
+}

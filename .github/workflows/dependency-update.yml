@@ -1,0 +1,77 @@
+name: Dependency Update
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for outdated dependencies
+        run: npm outdated || true
+
+      - name: Update dependencies
+        run: |
+          npm update
+          npm audit fix --audit-level=moderate || true
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run linting
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update dependencies'
+          title: 'chore: update dependencies'
+          body: |
+            ## 🔄 Dependency Updates
+
+            This PR updates project dependencies to their latest compatible versions.
+
+            ### Changes Made
+            - Updated npm packages to latest versions
+            - Applied security fixes where possible
+            - Verified all tests still pass
+            - Confirmed build still works
+
+            ### Testing
+            - [x] All tests pass
+            - [x] Linting passes
+            - [x] Build successful
+            - [x] No breaking changes detected
+
+            ### Review Required
+            Please review the changes and test locally before merging.
+
+            ---
+
+            *This PR was automatically created by the dependency update workflow.*
+          branch: dependency-update/$(date +%Y-%m-%d)
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+            needs-review
