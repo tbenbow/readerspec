@@ -40,7 +40,20 @@ export function validateReaderSpec(data: unknown): ValidationResult {
   if (!Array.isArray(spec.filters)) {
     errors.push('filters must be an array');
   } else {
+    // Check for duplicate filter field names
+    const filterFields = new Set<string>();
     spec.filters.forEach((filter, index) => {
+      const f = filter as Record<string, unknown>;
+      if (f.field && typeof f.field === 'string') {
+        if (filterFields.has(f.field)) {
+          errors.push(
+            `filters[${index}]: Duplicate filter field "${f.field}". Each filter must have a unique field name.`
+          );
+        } else {
+          filterFields.add(f.field);
+        }
+      }
+
       const filterErrors = validateFilter(filter, index);
       errors.push(...filterErrors);
     });
@@ -49,7 +62,20 @@ export function validateReaderSpec(data: unknown): ValidationResult {
   if (!Array.isArray(spec.sort)) {
     errors.push('sort must be an array');
   } else {
+    // Check for duplicate sort field names
+    const sortFields = new Set<string>();
     spec.sort.forEach((sortOption, index) => {
+      const s = sortOption as Record<string, unknown>;
+      if (s.field && typeof s.field === 'string') {
+        if (sortFields.has(s.field)) {
+          errors.push(
+            `sort[${index}]: Duplicate sort field "${s.field}". Each sort option must have a unique field name.`
+          );
+        } else {
+          sortFields.add(s.field);
+        }
+      }
+
       const sortErrors = validateSortOption(sortOption, index);
       errors.push(...sortErrors);
     });
@@ -109,6 +135,13 @@ function validateField(field: unknown, index: number): string[] {
 
   if (!f.type || typeof f.type !== 'string') {
     errors.push(`fields[${index}].type must be a string`);
+  } else {
+    const validTypes = ['string', 'boolean', 'number', 'array'];
+    if (!validTypes.includes(f.type)) {
+      errors.push(
+        `fields[${index}].type must be one of: ${validTypes.join(', ')}. Got "${f.type}". Use "string" for IDs, dates, and text content.`
+      );
+    }
   }
 
   if (f.desc !== undefined && typeof f.desc !== 'string') {
@@ -246,8 +279,22 @@ function generateSuggestions(
 
   // Check for common "contains" usage that should be "search"
   if (Array.isArray(spec.filters)) {
+    const filterFields = new Set<string>();
+
     spec.filters.forEach((filter: unknown, index: number) => {
       const f = filter as Record<string, unknown>;
+
+      // Check for duplicate filter field names
+      if (f.field && typeof f.field === 'string') {
+        if (filterFields.has(f.field)) {
+          suggestions.push(
+            `filters[${index}]: Duplicate filter field "${f.field}". Consider combining filters or using different field names.`
+          );
+        } else {
+          filterFields.add(f.field);
+        }
+      }
+
       if (f.op === 'contains' && f.values && !f.target) {
         suggestions.push(
           `filters[${index}]: Consider using "search" with "target" field instead of "contains" with "values" for better clarity`

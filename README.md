@@ -27,8 +27,23 @@ ReaderSpec takes the complexity out of API development by letting you describe y
 1. **📝 Write** your API spec in plain English
 2. **🤖 Translate** to JSON (optional - using AI or manually)
 3. **🔨 Build** Express routes, validation, and docs
-4. **📁 Navigate** to the generated API directory
-5. **🚀 Run** your API server
+4. **🚀 Run** your API server
+
+### 🎯 **Simplified Workflow**
+
+```bash
+# 1. Write your spec in specs/your-api.readerspec.md
+# 2. Translate to JSON (optional)
+npm run translate
+
+# 3. Build the API
+npm run build
+
+# 4. Run the server
+npm run dev
+```
+
+**That's it!** No more confusing directory navigation or multiple build commands.
 
 ### 1. Install ReaderSpec
 
@@ -40,9 +55,21 @@ npm install
 cp .env.example .env
 # Edit .env and add your OpenAI API key: https://platform.openai.com/account/api-keys
 
-# Build the CLI tool
+# Build everything (CLI tool + API)
 npm run build
 ```
+
+### 📋 **Available Commands**
+
+| Command | What it does | When to use |
+|---------|-------------|-------------|
+| `npm run build` | Builds CLI tool + generates API | Default build command |
+| `npm run build:cli` | Builds only the CLI tool | CLI development |
+| `npm run build:api` | Generates API from specs | API generation only |
+| `npm run dev` | Runs the generated API server | Default dev command |
+| `npm run dev:cli` | Runs CLI tool in watch mode | CLI development |
+| `npm run translate` | AI translation of specs | Converting human text to JSON |
+| `npm run check` | Validates all specs | Before building |
 
 ### 🤖 AI Translation Features
 
@@ -96,7 +123,7 @@ You have three main operations you can perform (usually in this order):
 #### 🔨 **Build the API from Specs**
 ```bash
 # Generate Express routes, validation, and docs from all .readerspec.md files
-npm run build:api
+npm run build
 ```
 
 #### 🤖 **AI Translation (Optional)**
@@ -113,9 +140,6 @@ npm run translate -- --watch
 
 #### 🚀 **Run the Generated Server**
 ```bash
-# Navigate to the generated API directory
-cd apps/api
-
 # Start the Express server (auto-regenerates on spec changes)
 npm run dev
 
@@ -137,8 +161,8 @@ curl "http://localhost:3000/todos?done=yes&page=1&per=10"
 ```
 
 > **💡 Note:** Use the correct dev command for what you want to do:
+> - `npm run dev` - Run the generated API server (default)
 > - `npm run dev:cli` - Develop the ReaderSpec CLI tool
-> - `npm run dev:api` - Run the generated API server
 
 **That's it!** You now have a fully functional API with filtering, sorting, pagination, and ownership scoping.
 
@@ -146,7 +170,7 @@ curl "http://localhost:3000/todos?done=yes&page=1&per=10"
 
 ## 📚 How to Read the Generated API Docs
 
-After running `npm run build:api`, you'll find comprehensive documentation in the `apps/api/` directory:
+After running `npm run build`, you'll find comprehensive documentation in the `apps/api/` directory:
 
 ### 📖 README.md
 - **Start here!** Contains getting started guide and examples
@@ -239,7 +263,7 @@ readerspec/
 npm run build
 
 # 1. Generate API from specs (creates Express routes, validation, docs)
-npm run build:api
+npm run build
 
 # 2. AI translation (optional - converts human text to JSON)
 npm run translate -- --file specs/todo.readerspec.md

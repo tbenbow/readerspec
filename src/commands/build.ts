@@ -213,9 +213,10 @@ export async function buildCommand(options: CommandOptions): Promise<void> {
     log.info(`✅ API generated successfully!`);
     log.info(`📦 Generated ${allFiles.length + 1} files`);
     log.info(`🚀 To start the API:`);
-    log.info(`   cd ${output || './apps/api'}`);
-    log.info(`   npm install`);
     log.info(`   npm run dev`);
+    log.info(
+      `💡 Tip: Use 'npm run dev' from the project root to start the API server`
+    );
   } catch (error) {
     const duration = timer.stop();
     log.commandError(

@@ -28,13 +28,14 @@
 - Search word looks inside the text
 
 
+
 ```readerspec
 {
   "resource": "todos",
   "fields": [
     {
       "name": "id",
-      "type": "id",
+      "type": "string",
       "desc": "a unique label"
     },
     {
@@ -49,7 +50,7 @@
     },
     {
       "name": "createdAt",
-      "type": "datetime",
+      "type": "string",
       "desc": "when it was first written"
     }
   ],
@@ -80,10 +81,10 @@
     "by": "User"
   },
   "returns": [
-    "A list of Todo items",
-    "Page number",
-    "Items per page",
-    "Total matching items"
+    "a list of Todo items",
+    "page number",
+    "items per page",
+    "total matching items"
   ]
 }
 ```

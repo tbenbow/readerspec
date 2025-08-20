@@ -33,7 +33,7 @@ You can mix conditions with all of these (AND) or any of these (OR). Examples:
   "fields": [
     {
       "name": "id",
-      "type": "id",
+      "type": "string",
       "desc": "Unique identifier for the blog post"
     },
     {
@@ -68,12 +68,12 @@ You can mix conditions with all of these (AND) or any of these (OR). Examples:
     },
     {
       "name": "createdAt",
-      "type": "datetime",
+      "type": "string",
       "desc": "Creation date of the blog post"
     },
     {
       "name": "updatedAt",
-      "type": "datetime",
+      "type": "string",
       "desc": "Last modified date of the blog post"
     }
   ],
@@ -86,7 +86,7 @@ You can mix conditions with all of these (AND) or any of these (OR). Examples:
     {
       "field": "q",
       "op": "search",
-      "target": "title"
+      "target": "text"
     },
     {
       "field": "status",
@@ -106,7 +106,7 @@ You can mix conditions with all of these (AND) or any of these (OR). Examples:
     {
       "field": "createdAt",
       "op": "range",
-      "values": ["2024-01-01", "2024-12-31"]
+      "values": ["string", "string"]
     }
   ],
   "sort": [

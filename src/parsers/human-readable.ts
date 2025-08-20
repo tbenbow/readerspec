@@ -99,13 +99,17 @@ export function formatSectionsForAI(sections: HumanReadableSection[]): string {
 - "ownership": object with "by" field
 - "returns": array of strings describing what's returned
 
-## Field Types:
-- "id" for unique identifiers
-- "string" for text content
+## Field Types (use exactly these):
+- "string" for text content, IDs, dates, and any text-based data
 - "boolean" for yes/no values (use "yes"/"no" strings)
-- "datetime" for dates (use "string" type)
 - "number" for numeric values
 - "array" for lists
+
+## Important Notes:
+- Use "string" for IDs, dates, and timestamps (not "id" or "datetime")
+- Each search filter should have a unique field name
+- Avoid duplicate filter definitions
+- All filter values arrays must contain actual values, not empty arrays
 
 ## Filter Operations (use exactly these):
 - "equals": for exact matches, requires "values" array
