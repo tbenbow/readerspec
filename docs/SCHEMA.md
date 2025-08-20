@@ -177,13 +177,3 @@ This will validate all `.readerspec.md` files and report any schema violations.
 4. **Set pagination**: Reasonable defaults for your use case
 5. **Plan ownership**: How will you handle multi-user access?
 6. **Test validation**: Use `npm run check` to catch errors early
-
-## 🤖 AI Translation Alternative
-
-If you prefer to write in plain English, you can use AI translation:
-
-```bash
-npm run translate -- --file specs/your-spec.readerspec.md
-```
-
-The AI will convert your human-readable descriptions into valid JSON following this schema.

@@ -10,7 +10,7 @@
     "build": "npm run build:cli && npm run build:api",
     "build:cli": "tsc",
     "build:api": "npm run build:cli && node dist/index.js build",
-    "dev": "cd apps/api && npm run dev",
+    "dev": "cd apps/api && npm install && npm run dev",
     "dev:cli": "nodemon --watch src --ext ts --exec 'npm run build:cli && node dist/index.js'",
     "start": "cd apps/api && npm start",
     "check": "npm run build:cli && node dist/index.js check",

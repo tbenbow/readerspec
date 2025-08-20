@@ -1,4 +1,4 @@
-# ReaderSpec 🚀
+# ReaderSpec
 
 **Generate production-ready APIs from human-readable markdown specifications.**
 
@@ -15,35 +15,21 @@ ReaderSpec takes the complexity out of API development by letting you describe y
 
 ## 🎯 Perfect For
 
+- **Product teams** who want to prototype APIs without engineering overhead
 - **Frontend developers** who need a backend API quickly
 - **Full-stack developers** who want to focus on business logic, not boilerplate
-- **Product teams** who want to prototype APIs without engineering overhead
 - **Anyone** who believes APIs should be simple and human-friendly
 
 ## 🚀 Quick Start
 
-### 📋 **What You'll Do**
+### **What You'll Do**
 
 1. **📝 Write** your API spec in plain English
-2. **🤖 Translate** to JSON (optional - using AI or manually)
-3. **🔨 Build** Express routes, validation, and docs
-4. **🚀 Run** your API server
+2. **🤖 Translate** your API spec to json `npm run translate`
+2. **🔨 Generate** your API `npm run build` 
+4. **🚀 Run** your API server `npm run dev`
 
-### 🎯 **Simplified Workflow**
-
-```bash
-# 1. Write your spec in specs/your-api.readerspec.md
-# 2. Translate to JSON (optional)
-npm run translate
-
-# 3. Build the API
-npm run build
-
-# 4. Run the server
-npm run dev
-```
-
-**That's it!** No more confusing directory navigation or multiple build commands.
+---
 
 ### 1. Install ReaderSpec
 
@@ -51,39 +37,13 @@ npm run dev
 # Install dependencies
 npm install
 
-# Set up environment variables
+# Set up environment variables (optional - for AI features)
 cp .env.example .env
 # Edit .env and add your OpenAI API key: https://platform.openai.com/account/api-keys
 
-# Build everything (CLI tool + API)
+# Generate your API
 npm run build
 ```
-
-### 📋 **Available Commands**
-
-| Command | What it does | When to use |
-|---------|-------------|-------------|
-| `npm run build` | Builds CLI tool + generates API | Default build command |
-| `npm run build:cli` | Builds only the CLI tool | CLI development |
-| `npm run build:api` | Generates API from specs | API generation only |
-| `npm run dev` | Runs the generated API server | Default dev command |
-| `npm run dev:cli` | Runs CLI tool in watch mode | CLI development |
-| `npm run translate` | AI translation of specs | Converting human text to JSON |
-| `npm run check` | Validates all specs | Before building |
-
-### 🤖 AI Translation Features
-
-ReaderSpec includes AI-powered translation that can automatically convert your human-readable descriptions to structured JSON. To enable this:
-
-1. **Get an OpenAI API key** from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
-2. **Copy the example environment file**: `cp .env.example .env`
-3. **Edit `.env`** and add your API key: `OPEN_AI_API_KEY=your-key-here`
-
-**Note:** AI translation is optional. You can still use ReaderSpec without it by manually writing JSON specs.
-
-**Manual JSON Writing:** If you prefer to write JSON directly, see our [Schema Documentation](docs/SCHEMA.md) for the complete format specification.
-
-**Watch Mode:** Use `npm run translate -- --watch` to automatically translate files as you edit them - perfect for iterative development!
 
 ### 2. Create Your First API Spec
 
@@ -116,35 +76,14 @@ You can mix conditions with AND logic. Examples:
 - Show todos with "urgent" in the text that aren't done yet
 ```
 
-### 3. Generate Your API
+### 3. Generate and Run Your API
 
-You have three main operations you can perform (usually in this order):
-
-#### 🔨 **Build the API from Specs**
 ```bash
-# Generate Express routes, validation, and docs from all .readerspec.md files
+# Generate Express routes, validation, and docs from your spec
 npm run build
-```
 
-#### 🤖 **AI Translation (Optional)**
-```bash
-# Convert human-readable descriptions to JSON using AI
-npm run translate -- --file specs/todo.readerspec.md
-
-# Or translate all spec files at once
-npm run translate
-
-# Watch mode: automatically translate files as they change
-npm run translate -- --watch
-```
-
-#### 🚀 **Run the Generated Server**
-```bash
-# Start the Express server (auto-regenerates on spec changes)
+# Start your API server
 npm run dev
-
-# Or start without auto-regeneration
-npm start
 ```
 
 ### 4. Test Your API
@@ -160,151 +99,55 @@ curl http://localhost:3000/todos
 curl "http://localhost:3000/todos?done=yes&page=1&per=10"
 ```
 
-> **💡 Note:** Use the correct dev command for what you want to do:
-> - `npm run dev` - Run the generated API server (default)
-> - `npm run dev:cli` - Develop the ReaderSpec CLI tool
-
 **That's it!** You now have a fully functional API with filtering, sorting, pagination, and ownership scoping.
 
-> **💡 Pro Tip:** Enable AI translation by setting up your OpenAI API key in `.env` for automatic conversion of human-readable descriptions to structured specs.
+## 🤖 AI Translation (Optional)
 
-## 📚 How to Read the Generated API Docs
+ReaderSpec can automatically convert your human-readable descriptions to structured JSON using AI:
 
-After running `npm run build`, you'll find comprehensive documentation in the `apps/api/` directory:
+1. **Get an OpenAI API key** from [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys)
+2. **Add it to your `.env` file**: `OPEN_AI_API_KEY=your-key-here`
+3. **Use the translate command**:
+   ```bash
+   # Convert your spec to JSON
+   npm run translate -- --file specs/todo.readerspec.md
+   
+   # Watch mode: automatically translate as you edit
+   npm run translate -- --watch
+   ```
 
-### 📖 README.md
-- **Start here!** Contains getting started guide and examples
-- Explains each endpoint in plain English
-- Shows practical curl examples for every feature
-- Includes development setup instructions
+**Note:** AI translation is completely optional. You can still use ReaderSpec without it.
 
-### 🔍 OpenAPI Specification (openapi.yaml)
-- **Import into Swagger UI** for interactive API exploration
-- **Use with Postman** for API testing
-- **Generate client libraries** for your frontend
-- **Share with your team** for API documentation
+## 📚 What You Get After Building
 
-### 📋 Postman Collection (postman-collection.json)
-- **Import directly into Postman** - all requests are pre-configured
-- **Test all endpoints** with example parameters
-- **Use variables** for base URL and user ID
-- **Built-in test scripts** for response validation
+After running `npm run build`, you'll find everything you need in the `apps/api/` directory:
 
-### 💻 TypeScript Types (types.ts)
-- **Copy into your frontend project** for type safety
-- **Use the included API client** for easy integration
-- **Get autocomplete** and error checking in your IDE
+- **🚀 Working API Server** - Ready to run with `npm run dev`
+- **📋 Postman Collection** - Import into Postman for easy testing
+- **📖 OpenAPI Spec** - Interactive API documentation
+- **💻 TypeScript Types** - For frontend integration
 
-## 🧪 Testing Your API
 
-Ready to test your API? Check out our comprehensive testing guide:
+## 📚 Docs
 
-📖 **[Testing Guide](docs/TESTING.md)** - Manual testing, Postman collections, automated testing, and performance testing.
+Need more technical details? Check out our developer guide:
 
-**Quick Start:**
-1. **Health check**: `curl http://localhost:3000/health`
-2. **Test endpoints**: Use the generated Postman collection
-3. **Automated testing**: Set up Jest and Supertest
-4. **Follow the guide** in `docs/TESTING.md`
+- 📖 **[Schema Reference](docs/SCHEMA.md)** - Describes the JSON format ReaderSpec expects.
+- 📖 **[Changelog](docs/CHANGELOG.md)** - All notable changes documented in this file.
+- 📖 **[Developer Guide](docs/DEVELOPER.md)** - Advanced features, troubleshooting, and technical deep-dives.
+- 📖 **[Testing Guide](docs/TESTING.md)** - Detailed instructions for testing the application.
+- 📖 **[CI/CD SETUP](docs/CI_CD.md)** - Set up the complete CI/CD pipeline for ReaderSpec.
 
-**Generated Files:**
-- **Postman Collection**: `apps/api/postman-collection.json` - Import into Postman for easy testing
-- **TypeScript Types**: `apps/api/types.ts` - Use in your frontend for type safety
-
-## 🚀 Deployment
-
-Ready to deploy your API? Check out our comprehensive deployment guide:
-
-📖 **[Deployment Guide](docs/DEPLOYMENT.md)** - Step-by-step instructions for Render, Railway, Heroku, Vercel, Docker, and more.
-
-**Quick Start:**
-1. **Push your code** to GitHub
-2. **Choose a platform** (Render recommended for beginners)
-3. **Follow the guide** in `docs/DEPLOYMENT.md`
-
-**Local Development:** Copy `.env.example` to `.env` and add your OpenAI API key for AI features.
-
-## 🔧 Development
-
-### 📋 **Documentation**
-- **[Schema Reference](docs/SCHEMA.md)** - Complete JSON format specification
-- **[Testing Guide](docs/TESTING.md)** - Testing strategies and examples
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - Platform-specific deployment instructions
-- **[CI/CD Setup](docs/CI_CD_SETUP.md)** - Complete CI/CD pipeline configuration
-
-### Project Structure
-
-```
-readerspec/
-├── specs/                  # Your API specifications
-│   ├── todo.readerspec.md  # Todo API spec
-│   └── blog.readerspec.md  # Blog API spec
-├── src                     # ReaderSpec CLI tool
-├── .env.example            # Environment variables template
-├── apps/api/               # Generated API (after build)
-│   ├── routes/             # Express routes
-│   ├── services/           # Business logic
-│   ├── validation/         # Zod schemas
-│   ├── openapi.yaml        # API documentation
-│   ├── README.md           # Usage guide
-│   ├── types.ts            # TypeScript types
-│   └── postman-collection.json # Testing collection
-├── docs/                   # Documentation
-│   ├── SCHEMA.md           # JSON schema reference
-│   ├── TESTING.md          # Testing guide
-│   └── DEPLOYMENT.md       # Deployment guide
-└── README.md               # This file
-```
-
-### Development Commands
-
-```bash
-# Build the CLI tool
-npm run build
-
-# 1. Generate API from specs (creates Express routes, validation, docs)
-npm run build
-
-# 2. AI translation (optional - converts human text to JSON)
-npm run translate -- --file specs/todo.readerspec.md
-npm run translate  # translate all files
-npm run translate -- --watch  # watch mode for auto-translation
-
-# 3. Run the generated server
-cd apps/api        # navigate to generated API
-npm run dev        # with auto-regeneration
-npm start          # without auto-regeneration
-
-# Validate your specs
-npm run check
-
-# Translate human text to JSON using AI
-npm run translate -- --file specs/todo.readerspec.md
-```
-> **Note:** AI translation requires an OpenAI API key set in your `.env` file.
-
-**Typical Workflow:**
-1. **Write specs** in human-readable format (or use AI translation)
-2. **Build the API** from your specs
-3. **Navigate to `apps/api/`** directory
-4. **Run the server** to test your endpoints
-
-**💡 Pro Tip:** Use `npm run translate -- --watch` for automatic AI translation as you write specs!
 
 ## Troubleshooting
-
-**AI Translation Not Working?**
-- Check that `OPEN_AI_API_KEY` is set in your `.env` file
-- Verify your OpenAI API key is valid and has credits
-- Ensure you're using the correct environment variable name: `OPEN_AI_API_KEY` (not `OPENAI_API_KEY`)
-
-**Want Continuous Translation?**
-- Use `npm run translate -- --watch` to automatically translate files as you edit them
-- Perfect for iterative development where you're refining your specs
 
 **Port Already in Use?**
 - Change the port in your `.env` file: `PORT=3001`
 - Or kill the existing process: `lsof -ti:3000 | xargs kill -9`
+
+**Need Help?**
+- Check the [Developer Guide](docs/DEVELOPER.md) for technical details
+- Review the [Schema Documentation](docs/SCHEMA.md) for JSON format specs
 
 ## License
 
