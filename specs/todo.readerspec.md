@@ -27,23 +27,63 @@
 ## Notes
 - Search word looks inside the text
 
+
 ```readerspec
 {
-  "resource": "Todo",
+  "resource": "todos",
   "fields": [
-    { "name": "id", "type": "id", "desc": "unique label" },
-    { "name": "text", "type": "string" },
-    { "name": "done", "type": "boolean" },
-    { "name": "createdAt", "type": "datetime" },
-    { "name": "userId", "type": "id", "relation": "User" }
+    {
+      "name": "id",
+      "type": "id",
+      "desc": "a unique label"
+    },
+    {
+      "name": "text",
+      "type": "string",
+      "desc": "the note"
+    },
+    {
+      "name": "done",
+      "type": "boolean",
+      "desc": "yes or no"
+    },
+    {
+      "name": "createdAt",
+      "type": "datetime",
+      "desc": "when it was first written"
+    }
   ],
   "filters": [
-    { "field": "done", "op": "equals", "values": ["yes", "no"] },
-    { "field": "q", "op": "search", "target": "text" }
+    {
+      "field": "done",
+      "op": "in",
+      "values": ["yes", "no"]
+    },
+    {
+      "field": "q",
+      "op": "search",
+      "target": "text"
+    }
   ],
-  "sort": [{ "field": "createdAt", "dir": ["asc", "desc"] }],
-  "paginate": { "maxPer": 100, "defaultPer": 20, "startPage": 1 },
-  "ownership": { "by": "userId" },
-  "returns": ["items", "page", "per", "total"]
+  "sort": [
+    {
+      "field": "createdAt",
+      "dir": ["ascending", "descending"]
+    }
+  ],
+  "paginate": {
+    "maxPer": 100,
+    "defaultPer": 20,
+    "startPage": 1
+  },
+  "ownership": {
+    "by": "User"
+  },
+  "returns": [
+    "A list of Todo items",
+    "Page number",
+    "Items per page",
+    "Total matching items"
+  ]
 }
 ```

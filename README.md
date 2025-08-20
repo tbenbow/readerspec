@@ -130,13 +130,15 @@ npm start
 curl http://localhost:3000/health
 
 # List todos
-curl http://localhost:3000/todo
+curl http://localhost:3000/todos
 
 # Filter todos
-curl "http://localhost:3000/todo?done=yes&page=1&per=10"
+curl "http://localhost:3000/todos?done=yes&page=1&per=10"
 ```
 
-> **💡 Note:** Make sure your server is running from the `apps/api/` directory before testing.
+> **💡 Note:** Use the correct dev command for what you want to do:
+> - `npm run dev:cli` - Develop the ReaderSpec CLI tool
+> - `npm run dev:api` - Run the generated API server
 
 **That's it!** You now have a fully functional API with filtering, sorting, pagination, and ownership scoping.
 

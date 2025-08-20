@@ -61,15 +61,33 @@ export async function checkCommand(options: CommandOptions): Promise<void> {
 
       if (validation.isValid) {
         log.info(`✅ ${specFile.name} is valid`, { file: specFile.name });
+
+        // Show warnings if any
+        if (validation.warnings && validation.warnings.length > 0) {
+          log.warn(`⚠️  Warnings for ${specFile.name}:`);
+          validation.warnings.forEach((warning) => {
+            log.warn(`   - ${warning}`);
+          });
+        }
+
         validSpecs += 1;
       } else {
-        log.error(`Validation errors in ${specFile.name}:`, {
+        log.error(`❌ Validation errors in ${specFile.name}:`, {
           file: specFile.name,
           errors: validation.errors,
         });
         validation.errors.forEach((error) => {
           log.error(`   - ${error}`);
         });
+
+        // Show suggestions if any
+        if (validation.suggestions && validation.suggestions.length > 0) {
+          log.info(`💡 Suggestions for ${specFile.name}:`);
+          validation.suggestions.forEach((suggestion) => {
+            log.info(`   - ${suggestion}`);
+          });
+        }
+
         totalErrors += validation.errors.length;
       }
     }

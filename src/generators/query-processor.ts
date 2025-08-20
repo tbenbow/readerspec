@@ -84,7 +84,7 @@ ${filterLogic}
     }
 
     const sortField = query.sort_by;
-    const sortDirection = query.sort_dir || 'asc';
+    const sortDirection = query.sort_dir || 'ascending';
 
     return [...data].sort((a, b) => {
       const aVal = a[sortField];
@@ -93,7 +93,7 @@ ${filterLogic}
       if (aVal === bVal) return 0;
 
       const comparison = aVal < bVal ? -1 : 1;
-      return sortDirection === 'desc' ? -comparison : comparison;
+      return sortDirection === 'descending' ? -comparison : comparison;
     });
   }
 
@@ -136,11 +136,11 @@ function generateFilterLogic(filters: Filter[]): string {
       filtered = filtered.filter(item => query.${filter.field}!.includes(item.${filter.field}));
     }`;
         case 'range':
-          return `    if (query.${filter.field}_min !== undefined) {
-      filtered = filtered.filter(item => item.${filter.field} >= query.${filter.field}_min);
+          return `    if (query.${filter.field}_min !== undefined && query.${filter.field}_min !== null) {
+      filtered = filtered.filter(item => item.${filter.field} >= query.${filter.field}_min!);
     }
-    if (query.${filter.field}_max !== undefined) {
-      filtered = filtered.filter(item => item.${filter.field} <= query.${filter.field}_max);
+    if (query.${filter.field}_max !== undefined && query.${filter.field}_max !== null) {
+      filtered = filtered.filter(item => item.${filter.field} <= query.${filter.field}_max!);
     }`;
         default:
           return `    // Filter ${filter.field} with operation ${filter.op} not implemented`;

@@ -89,15 +89,50 @@ export function formatSectionsForAI(sections: HumanReadableSection[]): string {
   });
 
   prompt += `\nGenerate a JSON block that follows this schema:
-{
-  "resource": "string",
-  "fields": [{"name": "string", "type": "string", "desc": "string"}],
-  "filters": [{"field": "string", "op": "string", "values": ["string"]}],
-  "sort": [{"field": "string", "dir": ["string"]}],
-  "paginate": {"maxPer": number, "defaultPer": number, "startPage": number},
-  "ownership": {"by": "string"},
-  "returns": ["string"]
-}
+
+## Required Fields:
+- "resource": string (lowercase, plural, e.g., "todos", "blog_posts")
+- "fields": array of field objects with name, type, and desc
+- "filters": array of filter objects
+- "sort": array of sort objects
+- "paginate": object with maxPer, defaultPer, startPage
+- "ownership": object with "by" field
+- "returns": array of strings describing what's returned
+
+## Field Types:
+- "id" for unique identifiers
+- "string" for text content
+- "boolean" for yes/no values (use "yes"/"no" strings)
+- "datetime" for dates (use "string" type)
+- "number" for numeric values
+- "array" for lists
+
+## Filter Operations (use exactly these):
+- "equals": for exact matches, requires "values" array
+- "search": for text search, requires "target" field (not "values")
+- "contains": for text search, requires "target" field (not "values") - same as "search"
+- "in": for matching any value in a list, requires "values" array
+- "range": for numeric/date ranges, requires "values" array
+
+## Common Patterns:
+- Use "q" as field name for general search filters
+- Use "createdAt" for creation timestamps
+- Use "updatedAt" for modification timestamps
+- Use "status" for state fields (draft, published, etc.)
+
+## Important Notes:
+- Sort objects must use "dir" (not "order") for direction field
+- Sort directions must be full words: "ascending", "descending" (not "asc", "desc")
+- Search filters must reference actual field names that exist in the fields array
+- All filter values arrays must contain actual values, not empty arrays
+- For "equals", "in", and "range" operations, provide meaningful example values
+- Use "string" as a placeholder for generic string values
+
+## Example Filter:
+{"field": "q", "op": "search", "target": "text"}
+
+## Example Sort:
+{"field": "createdAt", "dir": ["ascending", "descending"]}
 
 Only return the JSON block, no additional text.`;
 

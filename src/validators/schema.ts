@@ -10,6 +10,8 @@ import {
 export interface ValidationResult {
   isValid: boolean;
   errors: string[];
+  suggestions?: string[];
+  warnings?: string[];
 }
 
 export function validateReaderSpec(data: unknown): ValidationResult {
@@ -81,9 +83,14 @@ export function validateReaderSpec(data: unknown): ValidationResult {
     });
   }
 
+  const suggestions = generateSuggestions(spec, errors);
+  const warnings = generateWarnings(spec);
+
   return {
     isValid: errors.length === 0,
     errors,
+    suggestions,
+    warnings,
   };
 }
 
@@ -131,26 +138,42 @@ function validateFilter(filter: unknown, index: number): string[] {
   if (!f.op || typeof f.op !== 'string') {
     errors.push(`filters[${index}].op must be a string`);
   } else {
-    const validOps = ['equals', 'search', 'in', 'range'];
+    const validOps = ['equals', 'search', 'contains', 'in', 'range'];
     if (!validOps.includes(f.op)) {
       errors.push(
-        `filters[${index}].op must be one of: ${validOps.join(', ')}`
+        `filters[${index}].op must be one of: ${validOps.join(', ')}. Got "${f.op}". Did you mean "search" or "contains"?`
       );
     }
   }
 
   if (
     f.op === 'equals' &&
-    (!Array.isArray(f.values) || !f.values.every((v) => typeof v === 'string'))
+    (!Array.isArray(f.values) ||
+      f.values.length === 0 ||
+      !f.values.every((v) => typeof v === 'string'))
   ) {
     errors.push(
-      `filters[${index}].values must be an array of strings for equals operation`
+      `filters[${index}].values must be a non-empty array of strings for equals operation`
     );
   }
 
-  if (f.op === 'search' && (!f.target || typeof f.target !== 'string')) {
+  if (
+    (f.op === 'search' || f.op === 'contains') &&
+    (!f.target || typeof f.target !== 'string')
+  ) {
     errors.push(
-      `filters[${index}].target must be a string for search operation`
+      `filters[${index}].target must be a string for ${f.op} operation`
+    );
+  }
+
+  if (
+    (f.op === 'in' || f.op === 'range') &&
+    (!Array.isArray(f.values) ||
+      f.values.length === 0 ||
+      !f.values.every((v) => typeof v === 'string'))
+  ) {
+    errors.push(
+      `filters[${index}].values must be a non-empty array of strings for ${f.op} operation`
     );
   }
 
@@ -213,4 +236,82 @@ function validateOwnership(ownership: Record<string, unknown>): string[] {
   }
 
   return errors;
+}
+
+function generateSuggestions(
+  spec: Record<string, unknown>,
+  errors: string[]
+): string[] {
+  const suggestions: string[] = [];
+
+  // Check for common "contains" usage that should be "search"
+  if (Array.isArray(spec.filters)) {
+    spec.filters.forEach((filter: unknown, index: number) => {
+      const f = filter as Record<string, unknown>;
+      if (f.op === 'contains' && f.values && !f.target) {
+        suggestions.push(
+          `filters[${index}]: Consider using "search" with "target" field instead of "contains" with "values" for better clarity`
+        );
+      }
+
+      // Check for empty values arrays
+      if (
+        (f.op === 'equals' || f.op === 'in' || f.op === 'range') &&
+        Array.isArray(f.values) &&
+        f.values.length === 0
+      ) {
+        suggestions.push(
+          `filters[${index}]: Empty values array not allowed. Use ["string"] for generic values or provide specific examples.`
+        );
+      }
+    });
+  }
+
+  // Check for missing common fields
+  if (Array.isArray(spec.fields)) {
+    const fieldNames = spec.fields.map((f: any) => f.name);
+    if (!fieldNames.includes('id') && !fieldNames.includes('_id')) {
+      suggestions.push(
+        'Consider adding an "id" field for unique identification'
+      );
+    }
+    if (
+      !fieldNames.includes('createdAt') &&
+      !fieldNames.includes('created_at')
+    ) {
+      suggestions.push(
+        'Consider adding a "createdAt" field for tracking creation time'
+      );
+    }
+  }
+
+  return suggestions;
+}
+
+function generateWarnings(spec: Record<string, unknown>): string[] {
+  const warnings: string[] = [];
+
+  // Check for potential performance issues
+  if (Array.isArray(spec.filters)) {
+    const searchFilters = spec.filters.filter(
+      (f: any) => f.op === 'search' || f.op === 'contains'
+    );
+    if (searchFilters.length > 2) {
+      warnings.push(
+        'Multiple search filters may impact performance. Consider consolidating search operations.'
+      );
+    }
+  }
+
+  // Check pagination limits
+  if (spec.paginate && typeof spec.paginate === 'object') {
+    const paginate = spec.paginate as Record<string, unknown>;
+    if (typeof paginate.maxPer === 'number' && paginate.maxPer > 1000) {
+      warnings.push(
+        'Very high maxPer values may impact performance. Consider limiting to 1000 or less.'
+      );
+    }
+  }
+
+  return warnings;
 }

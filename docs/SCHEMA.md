@@ -63,6 +63,7 @@ interface Filter {
 |-----------|-------------|---------|
 | `equals` | Exact match | `done: "yes"` |
 | `search` | Text search | `q: "urgent"` |
+| `contains` | Text search (alias for search) | `q: "urgent"` |
 | `in` | Match any value in list | `category: ["tech", "news"]` |
 | `range` | Numeric/date range | `createdAt: "2024-01-01..2024-12-31"` |
 
@@ -131,6 +132,7 @@ Here's a complete example for a Todo resource:
   "filters": [
     { "field": "done", "op": "equals", "values": ["yes", "no"] },
     { "field": "q", "op": "search", "target": "text" }
+    // Note: "contains" is also valid and equivalent to "search"
   ],
   "sort": [
     { "field": "createdAt", "dir": ["asc", "desc"] },
