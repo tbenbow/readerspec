@@ -79,6 +79,9 @@ You can mix conditions with AND logic. Examples:
 ### 3. Generate and Run Your API
 
 ```bash
+# Translate markdown into valid JSON
+npm run translate
+
 # Generate Express routes, validation, and docs from your spec
 npm run build
 
