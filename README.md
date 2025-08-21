@@ -138,17 +138,6 @@ Need more technical details? Check out our developer guide:
 - 📖 **[Testing Guide](docs/TESTING.md)** - Detailed instructions for testing the application.
 - 📖 **[CI/CD SETUP](docs/CI_CD.md)** - Set up the complete CI/CD pipeline for ReaderSpec.
 
-
-## Troubleshooting
-
-**Port Already in Use?**
-- Change the port in your `.env` file: `PORT=3001`
-- Or kill the existing process: `lsof -ti:3000 | xargs kill -9`
-
-**Need Help?**
-- Check the [Developer Guide](docs/DEVELOPER.md) for technical details
-- Review the [Schema Documentation](docs/SCHEMA.md) for JSON format specs
-
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
