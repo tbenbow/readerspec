@@ -4,30 +4,30 @@
 
 ReaderSpec takes the complexity out of API development by letting you describe your API in plain English, then automatically generating everything you need: Express routes, validation, documentation, and more.
 
-## ✨ What You Get
+## What You Get
 
-- **🚀 Instant API** - Generate a working Express.js API in seconds
-- **📝 Human-First** - Write your API spec in plain English markdown
-- **🤖 AI-Powered** - AI automatically translates your descriptions to machine-readable JSON
-- **📚 Complete Docs** - Auto-generated OpenAPI specs, Postman collections, and TypeScript types
-- **🔒 Built-in Security** - Automatic ownership filtering and validation
-- **⚡ Live Development** - Watch files and auto-regenerate on changes
+- **Instant API** - Generate a working Express.js API in seconds
+- **Human-First** - Write your API spec in plain English markdown
+- **AI-Powered** - AI automatically translates your descriptions to machine-readable JSON
+- **Complete Docs** - Auto-generated OpenAPI specs, Postman collections, and TypeScript types
+- **Built-in Security** - Automatic ownership filtering and validation
+- **Live Development** - Watch files and auto-regenerate on changes
 
-## 🎯 Perfect For
+## Perfect For
 
 - **Product teams** who want to prototype APIs without engineering overhead
 - **Frontend developers** who need a backend API quickly
 - **Full-stack developers** who want to focus on business logic, not boilerplate
 - **Anyone** who believes APIs should be simple and human-friendly
 
-## 🚀 Quick Start
+## Quick Start
 
 ### **What You'll Do**
 
-1. **📝 Write** your API spec in plain English
-2. **🤖 Translate** your API spec to json `npm run translate`
-2. **🔨 Generate** your API `npm run build` 
-4. **🚀 Run** your API server `npm run dev`
+1. **Write** your API spec in plain English
+2. **Translate** your API spec to json `npm run translate`
+2. **Generate** your API `npm run build` 
+4. **Run** your API server `npm run dev`
 
 ---
 
@@ -121,17 +121,17 @@ ReaderSpec can automatically convert your human-readable descriptions to structu
 
 **Note:** AI translation is completely optional. You can still use ReaderSpec without it.
 
-## 📚 What You Get After Building
+## What You Get After Building
 
 After running `npm run build`, you'll find everything you need in the `apps/api/` directory:
 
-- **🚀 Working API Server** - Ready to run with `npm run dev`
-- **📋 Postman Collection** - Import into Postman for easy testing
-- **📖 OpenAPI Spec** - Interactive API documentation
-- **💻 TypeScript Types** - For frontend integration
+- **Working API Server** - Ready to run with `npm run dev`
+- **Postman Collection** - Import into Postman for easy testing
+- **OpenAPI Spec** - Interactive API documentation
+- **TypeScript Types** - For frontend integration
 
 
-## 📚 Docs
+## Docs
 
 Need more technical details? Check out our developer guide:
 
